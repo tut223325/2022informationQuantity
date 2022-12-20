@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"s4.specification","h":"","u":""},{"l":"すべてのパッケージ","h":"","u":"allpackages-index.html"}]

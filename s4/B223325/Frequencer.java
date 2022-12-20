@@ -33,20 +33,14 @@ public class Frequencer implements FrequencerInterface {
     }
 
     private void showVariables() {
-        System.out.println("mySpace: len="+mySpace.length);
         for(int i=0; i< mySpace.length; i++) { 
             System.out.write(mySpace[i]); 
-            // System.out.print(mySpace[i]); 
         }
-        System.out.println();
         System.out.write(' ');
-        System.out.println("myTarget: len="+myTarget.length);
         for(int i=0; i< myTarget.length; i++) { 
             System.out.write(myTarget[i]); 
-            // System.out.print(myTarget[i]); 
         }
         System.out.write(' ');
-        System.out.println();
     }
 
     // frequency : 頻度
@@ -68,6 +62,7 @@ public class Frequencer implements FrequencerInterface {
             }
             if(abort == false) { 
                 count++; 
+                start += targetLength - 1;
             }
         }
         if(debugMode) { 
