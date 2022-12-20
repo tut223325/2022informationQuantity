@@ -1,0 +1,1 @@
+memberSearchIndex = [{"l":"estimation()","h":"","u":""},{"l":"frequency()","h":"","u":""},{"l":"setSpace(byte[])","h":"","u":""},{"l":"setTarget(byte[])","h":"","u":""},{"l":"subByteFrequency(int, int)","h":"","u":"subByteFrequency(int,int)"}]
