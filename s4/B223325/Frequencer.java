@@ -58,7 +58,7 @@ public class Frequencer implements FrequencerInterface {
         if(debugMode) {
             showVariables(); 
         }
-        for(int start = 0; start<spaceLength; start++) { // Is it OK?
+        for(int start = 0; start<spaceLength+1-targetLength; start++) { // Is it OK?
             boolean abort = false;
             for(int i = 0; i<targetLength; i++) {
                 if(myTarget[i] != mySpace[start+i]) { 
