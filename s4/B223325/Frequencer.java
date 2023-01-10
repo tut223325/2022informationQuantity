@@ -147,6 +147,21 @@ public class Frequencer implements FrequencerInterface{
 
     // 今回の演習では，myTargetを含む頭に含むsuffixの数を知りたいというもの．
     // targetCompareが，i,j,k を引数に取り，一般的な表現をされているが，実際に targetCompareに渡される引数は i, start, end だと思われる
+    public int slowSubByteFrequency(int start, int end){
+        int spaceLength = mySpace.length;                      
+        int count = 0;                                        
+        for(int offset = 0; offset< spaceLength - (end - start); offset++) {
+            boolean abort = false; 
+            for(int i = 0; i< (end - start); i++) {
+                if(myTarget[start+i] != mySpace[offset+i]) {
+                    abort = true; 
+                    break; 
+                }
+            }
+            if(abort == false) count++;
+        }
+        return count;
+    }
 
     public int subByteFrequency(int start, int end) {
         // start, and end specify a string to search in myTarget,
@@ -412,7 +427,10 @@ public class Frequencer implements FrequencerInterface{
             }
             int result = frequencerObject.frequency();
             System.out.print("Freq = "+ result+" ");
-            if(4 == result) {
+            int true_result = frequencerObject.slowSubByteFrequency(
+                0, frequencerObject.myTarget.length
+            );
+            if(true_result == result) {
                 System.out.println("OK");
             } else {
                 System.out.println("WRONG");
@@ -425,7 +443,10 @@ public class Frequencer implements FrequencerInterface{
             frequencerObject.setTarget("H".getBytes());
             result = frequencerObject.frequency();
             System.out.print("Freq = "+ result+" ");
-            if(1 == result) {
+            true_result = frequencerObject.slowSubByteFrequency(
+                0, frequencerObject.myTarget.length
+            );
+            if(true_result == result) {
                 System.out.println("OK");
             } else {
                 System.out.println("WRONG");
