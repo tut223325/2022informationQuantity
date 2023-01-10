@@ -150,9 +150,9 @@ public class Frequencer implements FrequencerInterface{
     public int slowSubByteFrequency(int start, int end){
         int spaceLength = mySpace.length;                      
         int count = 0;                                        
-        for(int offset = 0; offset< spaceLength - (end - start); offset++) {
+        for(int offset = 0; offset< spaceLength - (end - start - 1); offset++) {
             boolean abort = false; 
-            for(int i = 0; i< (end - start); i++) {
+            for(int i = 0; i< (end - start - 1); i++) {
                 if(myTarget[start+i] != mySpace[offset+i]) {
                     abort = true; 
                     break; 
@@ -433,7 +433,7 @@ public class Frequencer implements FrequencerInterface{
             if(true_result == result) {
                 System.out.println("OK");
             } else {
-                System.out.println("WRONG");
+                System.out.println("WRONG "+true_result);
             }
 
             // H のみの場合
@@ -449,7 +449,7 @@ public class Frequencer implements FrequencerInterface{
             if(true_result == result) {
                 System.out.println("OK");
             } else {
-                System.out.println("WRONG");
+                System.out.println("WRONG "+true_result);
             }
         // }
         // catch(Exception e) {
