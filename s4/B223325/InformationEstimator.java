@@ -44,6 +44,7 @@ public class InformationEstimator implements InformationEstimatorInterface {
     // IQ: information quantity for a count, -log2(count/sizeof(space))
     double iq(int freq) {
         return  - Math.log10((double)freq/(double)mySpace.length) / Math.log10((double)2.0);
+        // return  - Math.log2((double)freq/(double)mySpace.length);
     }
 
     @Override
@@ -80,28 +81,39 @@ public class InformationEstimator implements InformationEstimatorInterface {
         }
         // 全ての Information Quantity IQ を計算する
         // O(N^2)
-        double[][] iqs = new double[myTarget.length][myTarget.length];
-        for(int i = 0; i < myTarget.length; i++){
-            iqs[i][i] = iq(freqs[i][i]);
-        }
+        // double[][] iqs = new double[myTarget.length][myTarget.length];
+        // for(int i = 0; i < myTarget.length; i++){
+        //     iqs[i][i] = freqs[i][i];
+        //     // iqs[i][i] = iq(freqs[i][i]);
+        // }
         for(int i = 1; i < myTarget.length ; i++){
             for (int j = 0; j+i < myTarget.length; j++){
-                iqs[j][j+i] = Math.min(
-                    iq(freqs[j][j+i]), 
-                    iqs[j][j+i-1] + iqs[j+1][j+i]
-                );
+                // iqs[j][j+i] = Math.min(
+                //     freqs[j][j+i], 
+                //     // iq(freqs[j][j+i]), 
+                //     iqs[j][j+i-1] + iqs[j+1][j+i]
+                // );
+                freqs[j][j+i] = Math.min(
+                    freqs[j][j+i], 
+                    // iq(freqs[j][j+i]), 
+                    freqs[j][j+i-1]*freqs[j+1][j+i]
+                ); 
             }
         }
+        double min_iq = iq(freqs[0][myTarget.length-1]);
         if(debugMode) { 
-            System.out.printf("%10.5f\n", iqs[0][myTarget.length-1]);
+            System.out.printf("%10.5f\n", min_iq);
+            // System.out.printf("%10.5f\n", iqs[0][myTarget.length-1]);
             for (int i = 0; i < myTarget.length; i++){
                 for (int j = 0; j < myTarget.length; j++){
-                    System.out.printf("%10.2f ", iqs[i][j]);
+                    // System.out.printf("%10.2f ", iqs[i][j]);
+                    System.out.printf("%d ", freqs[i][j]);
                 }
                 System.out.println();
             }
         }
-        return iqs[0][myTarget.length-1];
+        return min_iq;
+        // return iqs[0][myTarget.length-1];
     }
 
     public double slowEstimation(){
