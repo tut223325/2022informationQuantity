@@ -66,7 +66,6 @@ public class TestCase {
                 "HH",
                 0
             );
-            System.out.println("result : " + result);
             assert result == null : result;
 
             result = test(
@@ -86,6 +85,7 @@ public class TestCase {
             InformationEstimatorInterface myObject;
             double value;
             System.out.println("checking InformationEstimator");
+            System.out.println("basic test");
             myObject = new InformationEstimator();
             myObject.setSpace("3210321001230123".getBytes());
             myObject.setTarget("0".getBytes());
@@ -100,6 +100,30 @@ public class TestCase {
             myObject.setTarget("00".getBytes());
             value = myObject.estimation();
             assert (value > 3.9999) && (4.0001 >value): "IQ for 00 in 3210321001230123 should be 3.0. But it returns "+value;
+
+            // spec test
+            System.out.println("spec test");
+            myObject = new InformationEstimator();
+            // なにも set していない場合
+            value = myObject.estimation();
+            assert value == 0: "IQ for no_target in no_space should be 0 But it returns "+value;
+            // 長さ 0 の target を set した場合
+            myObject.setTarget("".getBytes());
+            value = myObject.estimation();
+            assert value == 0: "IQ for no_target in no_space should be 0 But it returns "+value;
+            // space のみ set してない場合
+            myObject.setTarget("1".getBytes());
+            value = myObject.estimation();
+            assert value == Double.MAX_VALUE: "IQ for no_target in no_space should be "+Double.MAX_VALUE+" But it returns "+value;
+            // 長さ 0 の space を set した場合
+            myObject.setSpace("".getBytes());
+            value = myObject.estimation();
+            assert value == Double.MAX_VALUE: "IQ for no_target in no_space should be "+Double.MAX_VALUE+" But it returns "+value;
+            // どちらも正しく set してあるが，情報量が無限大となる場合
+            myObject.setSpace("0123456".getBytes());
+            myObject.setTarget("789".getBytes());
+            value = myObject.estimation();
+            assert value == Double.MAX_VALUE: "IQ for no_target in no_space should be "+Double.MAX_VALUE+" But it returns "+value;
         }
         catch(Exception e) {
             System.out.println("Exception occurred in InformationEstimator Object");

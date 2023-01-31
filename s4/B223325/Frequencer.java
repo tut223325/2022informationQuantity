@@ -86,32 +86,37 @@ public class Frequencer implements FrequencerInterface{
 
         boolean endi = (i < this.mySpace.length);
         boolean endj = (j < this.mySpace.length);
-        boolean skip = false;
-        int _i = i, _j = j, res=10;
+        // boolean skip = false;
+        // int _i = i, _j = j, 
+        // int res=10;
         while (endi && endj) {
             if (this.mySpace[i] > this.mySpace[j]){
-                res = 1;
-                skip = true;
-                break;
+                return 1;
+                // res = 1;
+                // skip = true;
+                // break;
             } else if (this.mySpace[i] < this.mySpace[j]){
-                res = -1;
-                skip = true;
-                break;
+                return -1;
+                // res = -1;
+                // skip = true;
+                // break;
             }
             endi = (++i < this.mySpace.length);
             endj = (++j < this.mySpace.length);
         }
-        if (!skip) {
-            // if (!endi && !endj) {
-            if (!endi && !endj) {
-                res = 0;
-            } else if (!endi) {
-                res = -1;
-            } else { // else if (!endj)
-                res = 1;
-            }
+        // if (!skip) {
+        if (!endi && !endj) {
+            return 0;
+            // res = 0;
+        } else if (!endi) {
+            return -1;
+            // res = -1;
+        } else { // else if (!endj)
+            return 1;
+            // res = 1;
         }
-        return res;
+        // }
+        // return res;
     }
 
     public void setSpace(byte[] space) { 
