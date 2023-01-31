@@ -68,7 +68,7 @@ public class TestCase {
             long end_time = System.nanoTime();
             System.out.printf(
                 "Benchmarking...(%s, %s) => Success: %f[ms] \n",
-                s, t, (double)(end_time-start_time)/1000.0
+                s, t, (double)(end_time-start_time)/1000000.0
             );
         } catch (Exception e) {
             e.printStackTrace();
