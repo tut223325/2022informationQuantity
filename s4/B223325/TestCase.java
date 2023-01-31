@@ -59,7 +59,7 @@ public class TestCase {
     public static void test_data(String s, String t){
         try{
             String space = readAll("../data/"+s);
-            String target = readAll("../data/"+s);
+            String target = readAll("../data/"+t);
             InformationEstimatorInterface myObject = new InformationEstimator();
             myObject.setSpace(space.getBytes());
             myObject.setTarget(target.getBytes());
@@ -69,6 +69,23 @@ public class TestCase {
             System.out.printf(
                 "Benchmarking...(%s, %s) => Success: %f[ms] \n",
                 s, t, (double)(end_time-start_time)/1000000.0
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void sort_data(String s){
+        try{
+            String space = readAll("../data/"+s);
+            InformationEstimatorInterface myObject = new InformationEstimator();
+            myObject.setSpace(space.getBytes());
+            long start_time = System.nanoTime();
+            myObject.estimation();
+            long end_time = System.nanoTime();
+            System.out.printf(
+                "Benchmarking...(%s) => Success: %f[ms] \n",
+                s, (double)(end_time-start_time)/1000000.0
             );
         } catch (Exception e) {
             e.printStackTrace();
@@ -159,8 +176,8 @@ public class TestCase {
             test_data("space_100b.txt", "taget_10b.txt");
             test_data("rand_1k.txt", "target_10b.txt");
             test_data("rand_1k.txt", "target_16b.txt");
-            // test_data("rand_10k.txt", "target_16b.txt");
-            // test_data("rand_100k.txt", "target_16b.txt");
+            test_data("rand_10k.txt", "target_16b.txt");
+            test_data("rand_100k.txt", "target_16b.txt");
             
         }
         catch(Exception e) {
