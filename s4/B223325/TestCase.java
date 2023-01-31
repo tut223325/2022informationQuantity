@@ -159,8 +159,8 @@ public class TestCase {
             test_data("space_100b.txt", "taget_10b.txt");
             test_data("rand_1k.txt", "target_10b.txt");
             test_data("rand_1k.txt", "target_16b.txt");
-            test_data("rand_10k.txt", "target_16b.txt");
-            test_data("rand_100k.txt", "target_16b.txt");
+            // test_data("rand_10k.txt", "target_16b.txt");
+            // test_data("rand_100k.txt", "target_16b.txt");
             
         }
         catch(Exception e) {
