@@ -2,6 +2,12 @@ package s4.B223325; // Please modify to s4.Bnnnnnn, where nnnnnn is your student
 import java.lang.*;
 import s4.specification.*;
 
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.stream.Collectors;
+
 /*
 interface FrequencerInterface {     // This interface provides the design for frequency counter.
     void setTarget(byte[]  target); // set the data to search.
@@ -43,6 +49,30 @@ public class TestCase {
             return space+", "+target+": "+freq;
         }
         return null;
+    }
+
+    public static String readAll(final String path) throws IOException {
+        return Files.lines(Paths.get(path), Charset.forName("UTF-8"))
+            .collect(Collectors.joining(System.getProperty("line.separator")));
+    }
+
+    public static void test_data(String s, String t){
+        try{
+            String space = readAll("../data/"+s);
+            String target = readAll("../data/"+s);
+            InformationEstimatorInterface myObject = new InformationEstimator();
+            myObject.setSpace(space.getBytes());
+            myObject.setTarget(target.getBytes());
+            long start_time = System.nanoTime();
+            myObject.estimation();
+            long end_time = System.nanoTime();
+            System.out.printf(
+                "Benchmarking...(%s, %s) => Success: %f[ms] \n",
+                s, t, (double)(end_time-start_time)/1000.0
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {
@@ -124,6 +154,14 @@ public class TestCase {
             myObject.setTarget("789".getBytes());
             value = myObject.estimation();
             assert value == Double.MAX_VALUE: "IQ for no_target in no_space should be "+Double.MAX_VALUE+" But it returns "+value;
+
+            // data にあるやつで検証
+            test_data("space_100b.txt", "taget_10b.txt");
+            test_data("rand_1k.txt", "target_10b.txt");
+            test_data("rand_1k.txt", "target_16b.txt");
+            test_data("rand_10k.txt", "target_16b.txt");
+            test_data("rand_100k.txt", "target_16b.txt");
+            
         }
         catch(Exception e) {
             System.out.println("Exception occurred in InformationEstimator Object");
