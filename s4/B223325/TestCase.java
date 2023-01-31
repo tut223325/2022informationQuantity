@@ -61,9 +61,9 @@ public class TestCase {
             String space = readAll("../data/"+s);
             String target = readAll("../data/"+t);
             InformationEstimatorInterface myObject = new InformationEstimator();
+            long start_time = System.nanoTime();
             myObject.setSpace(space.getBytes());
             myObject.setTarget(target.getBytes());
-            long start_time = System.nanoTime();
             myObject.estimation();
             long end_time = System.nanoTime();
             System.out.printf(
@@ -79,9 +79,8 @@ public class TestCase {
         try{
             String space = readAll("../data/"+s);
             InformationEstimatorInterface myObject = new InformationEstimator();
-            myObject.setSpace(space.getBytes());
             long start_time = System.nanoTime();
-            myObject.estimation();
+            myObject.setSpace(space.getBytes());
             long end_time = System.nanoTime();
             System.out.printf(
                 "Benchmarking...(%s) => Success: %f[ms] \n",
@@ -173,11 +172,21 @@ public class TestCase {
             assert value == Double.MAX_VALUE: "IQ for no_target in no_space should be "+Double.MAX_VALUE+" But it returns "+value;
 
             // data にあるやつで検証
-            test_data("space_100b.txt", "taget_10b.txt");
+            System.out.println("test_data");
+            test_data("space_100b.txt", "target_10b.txt");
             test_data("rand_1k.txt", "target_10b.txt");
             test_data("rand_1k.txt", "target_16b.txt");
             test_data("rand_10k.txt", "target_16b.txt");
             test_data("rand_100k.txt", "target_16b.txt");
+            test_data("space_100k.txt", "target_16b.txt");
+            test_data("space_100k.txt", "target_1k.txt");
+
+            System.out.println("sort_data");
+            sort_data("space_100b.txt");
+            sort_data("rand_1k.txt");
+            sort_data("rand_10k.txt");
+            sort_data("rand_100k.txt");
+            sort_data("space_100k.txt");
             
         }
         catch(Exception e) {
