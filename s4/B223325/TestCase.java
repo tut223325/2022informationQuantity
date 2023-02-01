@@ -180,6 +180,7 @@ public class TestCase {
             test_data("rand_100k.txt", "target_16b.txt");
             test_data("space_100k.txt", "target_16b.txt");
             test_data("space_100k.txt", "target_1k.txt");
+            test_data("space_100k.txt", "target_10k.txt");
 
             System.out.println("sort_data");
             sort_data("space_100b.txt");
@@ -197,3 +198,32 @@ public class TestCase {
     }
 }        
         
+// Benchmarking...(space_100b.txt, target_10b.txt) => Success: 0.491635[ms] 
+// Benchmarking...(rand_1k.txt, target_10b.txt) => Success: 1.341883[ms] 
+// Benchmarking...(rand_1k.txt, target_16b.txt) => Success: 1.004966[ms] 
+// Benchmarking...(rand_10k.txt, target_16b.txt) => Success: 51.544383[ms] 
+// Benchmarking...(rand_100k.txt, target_16b.txt) => Success: 4816.874727[ms] 
+// Benchmarking...(space_100k.txt, target_16b.txt) => Success: 34841.932298[ms] 
+// Benchmarking...(space_100k.txt, target_1k.txt) => Success: 38859.673035[ms] 
+// sort_data
+// Benchmarking...(space_100b.txt) => Success: 0.086900[ms] 
+// Benchmarking...(rand_1k.txt) => Success: 0.764398[ms] 
+// Benchmarking...(rand_10k.txt) => Success: 51.256332[ms] 
+// Benchmarking...(rand_100k.txt) => Success: 4818.588008[ms] 
+// Benchmarking...(space_100k.txt) => Success: 35242.773298[ms] 
+// TestCase OK
+
+// Benchmarking...(space_100b.txt, target_10b.txt) => Success: 0.231561[ms] 
+// Benchmarking...(rand_1k.txt, target_10b.txt) => Success: 0.848377[ms] 
+// Benchmarking...(rand_1k.txt, target_16b.txt) => Success: 0.486206[ms] 
+// Benchmarking...(rand_10k.txt, target_16b.txt) => Success: 4.246311[ms] 
+// Benchmarking...(rand_100k.txt, target_16b.txt) => Success: 46.831638[ms] 
+// Benchmarking...(space_100k.txt, target_16b.txt) => Success: 13783.460147[ms] 
+// Benchmarking...(space_100k.txt, target_1k.txt) => Success: 18116.057129[ms] 
+// Benchmarking...(rand_1k.txt, target_10k.txt) => Success: 6.707455[ms] 
+// sort_data
+// Benchmarking...(space_100b.txt) => Success: 0.050352[ms] 
+// Benchmarking...(rand_1k.txt) => Success: 0.232573[ms] 
+// Benchmarking...(rand_10k.txt) => Success: 3.170558[ms] 
+// Benchmarking...(rand_100k.txt) => Success: 42.185552[ms] 
+// Benchmarking...(space_100k.txt) => Success: 15441.695380[ms] 

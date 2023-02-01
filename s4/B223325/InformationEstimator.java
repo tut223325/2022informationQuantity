@@ -45,8 +45,8 @@ public class InformationEstimator implements InformationEstimatorInterface {
     }
 
     // IQ: information quantity for a count, -log2(count/sizeof(space))
-    double iq(double freq) {
-        return  - Math.log10(freq/(double)mySpace.length);
+    double iq(int freq) {
+        return  - Math.log10((double)freq/(double)mySpace.length);
         // return  - Math.log2((double)freq/(double)mySpace.length);
     }
 
@@ -77,24 +77,54 @@ public class InformationEstimator implements InformationEstimatorInterface {
             return Double.MAX_VALUE;
         }
 
+        int sl = mySpace.length;
+        
+        // // Frequency を一部のみ予め計算する．
+        // double[] iqs = new double[myTarget.length];
+        // int[] freqs = new int[myTarget.length];
+        // for (int i = 0; i < myTarget.length; i++) {
+        //     myFrequencer.setTarget(subBytes(myTarget, i, i+1));
+        //     freqs[i] = myFrequencer.frequency();
+        //     iqs[i] = iq(freqs[i]);
+        // }
+        // // 最終的に log を取る直前の中身を計算していく
+        // for(int i = 1; i < myTarget.length ; i++){
+        //     for (int j = 0; j+i < myTarget.length; j++){
+        //         // 前の freqs[j] が 0 なら，以降の freqs[j] も 0 となるはず．
+        //         // そうであるなら計算しない
+        //         if (freqs[j] > 0) {
+        //             myFrequencer.setTarget(subBytes(myTarget, j, j+i+1));
+        //             freqs[j] = myFrequencer.frequency();
+        //             iqs[j] = Math.min(
+        //                 iq(freqs[j]), 
+        //                 iqs[j]+iqs[j+1]
+        //             ); 
+        //         } else {
+        //             iqs[j] = iqs[j]*iqs[j+1];
+        //         }   
+        //     }
+        // }
+
         // Frequency を一部のみ予め計算する．
         double[] iqs = new double[myTarget.length];
-        double[] _freqs = new double[myTarget.length];
-        for (int i = 0; i < myTarget.length; i++) {
-            myFrequencer.setTarget(subBytes(myTarget, i, i+1));
-            iqs[i] = iq(myFrequencer.frequency());
-            _freqs[i] = myFrequencer.frequency();
+        int[][] freqs = new int[myTarget.length][2];
+        myFrequencer.setTarget(myTarget);
+        for (int j = 0; j < myTarget.length; j++) {
+            myFrequencer.setSpaceOffset(0);
+            myFrequencer.setTargetIndex(j);
+            freqs[j][0] = myFrequencer.subByteStartIndex2(0, mySpace.length);
+            freqs[j][1] = myFrequencer.subByteEndIndex2(freqs[j][0], mySpace.length);
+            iqs[j] = iq(freqs[j][1]-freqs[j][0]);
         }
-        // 最終的に log を取る直前の中身を計算していく
         for(int i = 1; i < myTarget.length ; i++){
             for (int j = 0; j+i < myTarget.length; j++){
-                // 前の _freqs[j] が 0 なら，以降の _freqs[j] も 0 となるはず．
-                // そうであるなら計算しない
-                if (_freqs[j] > 0) {
-                    myFrequencer.setTarget(subBytes(myTarget, j, j+i+1));
-                    _freqs[j] = myFrequencer.frequency();
+                if (freqs[j][1]-freqs[j][0] > 0) {
+                    myFrequencer.setSpaceOffset(i);
+                    myFrequencer.setTargetIndex(i+j);
+                    freqs[j][0] = myFrequencer.subByteStartIndex2(freqs[j][0], freqs[j][1]);
+                    freqs[j][1] = myFrequencer.subByteEndIndex2(freqs[j][0], freqs[j][1]);
                     iqs[j] = Math.min(
-                        iq(_freqs[j]), 
+                        iq(freqs[j][1]-freqs[j][0]), 
                         iqs[j]+iqs[j+1]
                     ); 
                 } else {
@@ -102,6 +132,7 @@ public class InformationEstimator implements InformationEstimatorInterface {
                 }   
             }
         }
+
         // 0 で log を取ると無限になるので，そのときは以下を返す（仕様）
         if (Double.isInfinite(iqs[0])) {
             return Double.MAX_VALUE;
