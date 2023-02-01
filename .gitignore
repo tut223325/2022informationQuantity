@@ -504,3 +504,8 @@ flycheck_*.el
 
 # projectiles files
 .projectile
+
+s4/B223325/*.md
+s4/B223325/*.pdf
+s4/B223325/*.html
+s4/B223325/test.java
